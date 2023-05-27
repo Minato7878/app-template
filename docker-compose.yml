@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  mydb:
+    image: mysql:8.0
+    ports:
+      - '3307:3306'
+    expose:
+      - '3306'
+    restart: always
+    environment:
+      MYSQL_DATABASE: railway
+      MYSQL_USER: minato7878
+      MYSQL_PASSWORD: qwerty123
+      MYSQL_ROOT_PASSWORD: root
+
+  api:
+    build:
+      context: ./railway-api
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - mydb
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+  angular-ui:
+    build:
+      context: ./app-ui
+      dockerfile: Dockerfile
+    ports:
+      - "4201:4201"
+    container_name: angular-ui
+    volumes:
+      - ./app-ui:/usr/src/app/app-ui
+      - /usr/src/app/app-ui/node_modules
