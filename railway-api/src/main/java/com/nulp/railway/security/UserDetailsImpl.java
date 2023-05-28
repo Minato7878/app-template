@@ -13,8 +13,8 @@ import java.util.Objects;
 
 public class UserDetailsImpl implements UserDetails {
 
-    private static final String ROLE_ADMIN = "ADMIN";
-    private static final String ROLE_USER = "USER";
+    private static final String ROLE_ADMIN = "ROLE_ADMIN";
+    private static final String ROLE_USER = "ROLE_USER";
     private final Long id;
     private final String username;
     private final String password;

@@ -19,7 +19,7 @@ import javax.validation.Valid;
 
 @Slf4j
 @Validated
-@CrossOrigin
+@CrossOrigin("*")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")

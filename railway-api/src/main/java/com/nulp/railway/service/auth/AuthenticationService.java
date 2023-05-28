@@ -56,11 +56,11 @@ public class AuthenticationService {
         user.setEmail(signupRequest.getEmail());
         user.setFirstName(signupRequest.getFirstName());
         user.setLastName(signupRequest.getLastName());
-        user.setNickname(signupRequest.getNickname());
+        user.setUsername(signupRequest.getUsername());
         user.setPassword(passwordEncoder.encode(password));
 
-        var role = roleRepository.findByName(ERole.GUEST)
-                .orElseGet(() -> roleRepository.save(new Role(ERole.GUEST)));
+        var role = roleRepository.findByName(ERole.USER)
+                .orElseGet(() -> roleRepository.save(new Role(ERole.USER)));
 
         user.setRoles(Collections.singleton(role));
         userService.save(user);

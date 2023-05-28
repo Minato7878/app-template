@@ -19,7 +19,7 @@ public class User {
     private Long id;
     @NotBlank
     @Column(length = 20, nullable = false)
-    private String nickname;
+    private String username;
     @NotBlank
     @Column(unique = true, length = 50, nullable = false)
     private String email;
@@ -28,7 +28,6 @@ public class User {
     private String firstName;
     @Column(name = "last_name", length = 25)
     private String lastName;
-    private String about;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),

@@ -14,11 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Service class which contains CRUD methods with user
- *
- * @author danylo.matviykiv@gmail.com
- */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -37,7 +32,7 @@ public class UserService {
     public User getCurrentUser() {
         var auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth.getPrincipal().equals(ANON_USER)) {
-            throw new CustomAuthException(messageBundle.getMessage("user.not.logged.exception"));
+            return new User();
         }
         var userDetails = (UserDetailsImpl) auth.getPrincipal();
         if (Objects.nonNull(userDetails))

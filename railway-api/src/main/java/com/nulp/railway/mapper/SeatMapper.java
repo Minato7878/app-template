@@ -1,7 +1,7 @@
 package com.nulp.railway.mapper;
 
-import com.nulp.railway.dto.UserDto;
-import com.nulp.railway.entity.User;
+import com.nulp.railway.dto.SeatDto;
+import com.nulp.railway.entity.Seat;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
@@ -9,14 +9,14 @@ import org.mapstruct.NullValueCheckStrategy;
 import java.util.List;
 
 @Mapper(componentModel = "spring", nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
-public interface UserMapper {
-
-    UserDto toDto(User user);
+public interface SeatMapper {
 
     @Mapping(target = "id", ignore = true)
-    User toEntity(UserDto userDTO);
+    Seat toEntity(SeatDto seatDto);
 
-    List<UserDto> toDtoList(List<User> users);
+    SeatDto toDto(Seat seat);
 
-    List<User> toEntityList(List<UserDto> userDtos);
+    List<SeatDto> toDtoList(List<Seat> seats);
+
+    List<Seat> toEntityList(List<SeatDto> seatDtos);
 }

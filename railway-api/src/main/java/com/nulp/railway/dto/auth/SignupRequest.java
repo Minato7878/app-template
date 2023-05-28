@@ -19,7 +19,7 @@ public class SignupRequest {
 
     @NotBlank
     @Size(min = 1, max = 20)
-    private String nickname;
+    private String username;
 
     @Email
     @NotBlank
