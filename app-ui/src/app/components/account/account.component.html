@@ -1,0 +1,88 @@
+<app-nav></app-nav>
+<div class="container">
+  <div class="row d-flex contact-info">
+    <div class="col-md-3 d-flex">
+      <div class="align-self-stretch box p-4 text-center">
+        <div class="icon d-flex align-items-center justify-content-center">
+          <span class="icon-map-signs">
+            <img src="../../../../assets/img/round_account_circle_black_48dp.png">
+          </span>
+        </div>
+        <h3 class="mb-4">Full Name</h3>
+        <p><a>{{ profile?.firstName }} {{ profile?.lastName }}</a></p>
+      </div>
+    </div>
+    <div class="col-md-3 d-flex">
+      <div class="align-self-stretch box p-4 text-center">
+        <div class="icon d-flex align-items-center justify-content-center">
+          <span class="icon-paper-plane">
+            <img src="../../../../assets/img/round_alternate_email_black_48dp.png">
+          </span>
+        </div>
+        <h3 class="mb-4">Email Address</h3>
+        <p>{{ profile?.email }}</p>
+      </div>
+    </div>
+    <div class="col-md-3 d-flex">
+      <div class="align-self-stretch box p-4 text-center">
+        <div class="icon d-flex align-items-center justify-content-center">
+          <span class="icon-globe">
+            <img src="../../../../assets/img/round_supervised_user_circle_black_48dp.png">
+          </span>
+        </div>
+        <h3 class="mb-4">Roles</h3>
+        <p>{{ formattedRoles }}</p>
+      </div>
+    </div>
+
+    <div class="col-md-3 d-flex">
+      <div class="align-self-stretch box p-4 text-center">
+        <div class="icon d-flex align-items-center justify-content-center">
+          <span class="icon-globe">
+            <img src="../../../../assets/img/icons8-exit-100.png">
+          </span>
+        </div>
+        <h3 class="mb-4"></h3>
+        <span>
+          <a class="btn btn-group size" style="background-color: #212529; color: white; margin-top: 15px;"
+            (click)="logout()">
+            Logout</a>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="ftco-section contact-section orders">
+  <div class="container">
+    <h1 class="text-center" style="color: black;">My Orders</h1>
+    <div class="table-responsive">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Order ID</th>
+            <th scope="col">Railway Number</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Seat</th>
+            <th scope="col">Order Time</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody *ngIf="ordersWithTickets && ordersWithTickets.length > 0">
+          <tr *ngFor="let orderWithTicket of ordersWithTickets">
+            <th scope="row">{{ orderWithTicket.order.id }}</th>
+            <td>{{ orderWithTicket.railwayNumber }}</td>
+            <td>{{ orderWithTicket.ticket.passengerFirstName }}</td>
+            <td>{{ orderWithTicket.ticket.passengerLastName }}</td>
+            <td>{{ orderWithTicket.ticket.seatDto.seatNumber }} {{ orderWithTicket.ticket.seatDto.carriage }}</td>
+            <td>{{ orderWithTicket.order.orderDatetime }}</td>
+            <td>
+              <button class="btn btn-danger" (click)="unbookOrder(orderWithTicket.order.railwayId)">Unbook</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

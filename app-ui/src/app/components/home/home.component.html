@@ -1,0 +1,79 @@
+<app-nav></app-nav>
+<section class="ftco-section ftco-no-pb contact-section">
+  <div class="container">
+
+
+    <mat-form-field>
+      <input matInput placeholder="Search Railway" #input>
+    </mat-form-field>
+
+    <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <button routerLink="/railway-add" class="float-right" *ngIf="hasAdminRole()" mat-button mat-flat-button
+      color="primary">Add Railway</button>
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort matSortActive="railwayNumber" matSortDirection="asc"
+        matSortDisableClear>
+
+        <!-- Railway Number Column -->
+        <ng-container matColumnDef="railwayNumber">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Railway Number </th>
+          <td mat-cell *matCellDef="let element"> {{element.railwayNumber}} </td>
+        </ng-container>
+
+        <!-- Departure Station Column -->
+        <ng-container matColumnDef="departureStation">
+          <th mat-header-cell *matHeaderCellDef> Departure Station </th>
+          <td mat-cell *matCellDef="let element"> {{element.departureStation}} </td>
+        </ng-container>
+
+        <!-- Arrival Station Column -->
+        <ng-container matColumnDef="arrivalStation">
+          <th mat-header-cell *matHeaderCellDef> Arrival Station </th>
+          <td mat-cell *matCellDef="let element"> {{element.arrivalStation}} </td>
+        </ng-container>
+
+        <!-- Departure Datetime Column -->
+        <ng-container matColumnDef="departureDatetime">
+          <th mat-header-cell *matHeaderCellDef> Departure Datetime </th>
+          <td mat-cell *matCellDef="let element"> {{element.departureDatetime}} </td>
+        </ng-container>
+
+        <!-- Arrival Datetime Column -->
+        <ng-container matColumnDef="arrivalDatetime">
+          <th mat-header-cell *matHeaderCellDef> Arrival Datetime </th>
+          <td mat-cell *matCellDef="let element"> {{element.arrivalDatetime}} </td>
+        </ng-container>
+
+        <!-- Action Column -->
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef> Action </th>
+          <td mat-cell *matCellDef="let element" class="action-link">
+            <a [routerLink]="['/order-add', element.id]" *ngIf="shouldShowBookLink(element.id)">
+              <span style="color:rgb(51, 255, 0)"> Book</span>
+            </a>
+            <a *ngIf="shouldShowUnbookLink(element.id)" (click)="unbookRailway(element.id)">
+              <span style="color:rgba(153, 0, 173, 0.945)"> Unbook</span>
+            </a>
+            <a *ngIf="hasAdminRole() && shouldShowBookLink(element.id)" [routerLink]="['/railway-edit', element.id]">
+              <span style="color:black"> | </span>
+              <span style="color:rgb(3, 104, 255)"> Edit</span>
+            </a>
+            <a *ngIf="hasAdminRole() && shouldShowBookLink(element.id)" routerLink="/home" (click)="openDialog('Delete',element)">
+              <span style="color:black"> | </span>
+              <span style="color:red"> Delete</span>
+            </a>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <mat-paginator [length]="lenght" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25]">
+      </mat-paginator>
+    </div>
+  </div>
+</section>

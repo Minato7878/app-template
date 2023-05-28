@@ -1,0 +1,36 @@
+<app-nav></app-nav>
+
+<section class="ftco-section ftco-no-pb contact-section">
+    <div class="container">
+        <div class="col-md-6 user-container">
+            <h2 class="text-center">Add Order</h2>
+            <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="passengerFirstName">Passenger First Name:</label>
+                    <input type="text" formControlName="passengerFirstName" placeholder="Passenger First Name"
+                        name="passengerFirstName" class="form-control" id="passengerFirstName">
+                </div>
+
+                <div class="form-group">
+                    <label for="passengerLastName">Passenger Last Name:</label>
+                    <input type="text" formControlName="passengerLastName" placeholder="Passenger Last Name"
+                        name="passengerLastName" class="form-control" id="passengerLastName">
+                </div>
+
+                <div class="form-group">
+                    <label for="seat">Choose Seat:</label>
+                    <mat-select formControlName="seat" placeholder="Select a seat"
+                        (selectionChange)="onSeatSelectionChange($event.value)">
+                        <mat-option *ngFor="let seat of seats" [value]="seat">{{ seat.seatNumber }}, {{ seat.carriage
+                            }}</mat-option>
+                    </mat-select>
+                </div>
+
+                <div class="form-group" style="display: inline;">
+                    <button type="submit" class="btn btn-success" style="margin:5px;">Add</button>
+                    <button type="button" routerLink="/home" class="btn btn-danger" style="margin:5px;">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

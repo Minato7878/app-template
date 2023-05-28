@@ -1,0 +1,45 @@
+<app-nav></app-nav>
+
+<section class="ftco-section ftco-no-pb contact-section">
+    <div class="container">
+        <div class="col-md-6 user-container">
+            <h2 class="text-center">Add Railway</h2>
+            <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="railwayNumber">Railway Number:</label>
+                    <input type="text" formControlName="railwayNumber" placeholder="Railway Number" name="railwayNumber"
+                        class="form-control" id="railwayNumber">
+                </div>
+                <div class="form-group">
+                    <label for="departureStation">Departure Station:</label>
+                    <input type="text" formControlName="departureStation" placeholder="Departure Station"
+                        name="departureStation" class="form-control" id="departureStation">
+                </div>
+
+                <div class="form-group">
+                    <label for="arrivalStation">Arrival Station:</label>
+                    <input type="text" formControlName="arrivalStation" placeholder="Arrival Station"
+                        name="arrivalStation" class="form-control" id="arrivalStation">
+                </div>
+
+                <div class="form-group">
+                    <label for="departureDatetime">Departure Datetime:</label>
+                    <input type="datetime-local" formControlName="departureDatetime" placeholder="Departure Datetime"
+                        name="departureDatetime" class="form-control" id="departureDatetime">
+                </div>
+
+                <div class="form-group">
+                    <label for="arrivalDatetime">Arrival Datetime:</label>
+                    <input type="datetime-local" formControlName="arrivalDatetime" placeholder="Arrival Datetime"
+                        name="arrivalDatetime" class="form-control" id="arrivalDatetime">
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success" style="margin:5px;">Add</button>
+                    <button type="button" routerLink="/home" class="btn btn-danger" style="margin:5px;">Cancel</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</section>

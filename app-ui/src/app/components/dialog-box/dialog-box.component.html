@@ -1,0 +1,12 @@
+<div mat-dialog-content>
+  <mat-form-field *ngIf="action != 'Delete'; else elseTemplate">
+    <input placeholder="{{action}} Name" matInput [(ngModel)]="local_data.name">
+  </mat-form-field>
+  <ng-template #elseTemplate>
+    Are you sure you want to delete <b>{{local_data.name}}</b>?
+  </ng-template>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="doAction()" style="margin:5px;">{{action}}</button>
+  <button mat-button (click)="closeDialog()" style="margin:5px;" mat-flat-button color="warn">Cancel</button>
+</div>

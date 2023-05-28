@@ -1,0 +1,12 @@
+table {
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a:hover {
+  font-style: italic
+}
