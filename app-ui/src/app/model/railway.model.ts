@@ -5,6 +5,7 @@ export class RailwayDto {
     arrivalStation: string;
     departureDatetime: Date;
     arrivalDatetime: Date;
+    availableSeats: number;
   
     constructor(
       id: number,
@@ -12,7 +13,8 @@ export class RailwayDto {
       departureStation: string,
       arrivalStation: string,
       departureDatetime: Date,
-      arrivalDatetime: Date
+      arrivalDatetime: Date,
+      availableSeats: number
     ) {
       this.id = id;
       this.railwayNumber = railwayNumber;
@@ -20,5 +22,6 @@ export class RailwayDto {
       this.arrivalStation = arrivalStation;
       this.departureDatetime = departureDatetime;
       this.arrivalDatetime = arrivalDatetime;
+      this.availableSeats = availableSeats;
     }
   }

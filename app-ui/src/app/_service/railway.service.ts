@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_BASE_URL } from '../constants/constants';
 import { RailwayDto } from 'src/app/model/railway.model';
+import { SeatDto } from '../model/seat.model';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -24,6 +25,10 @@ export class RailwayService {
   getPageableView(filter: string, sortDirection: string, pageNumber: number, pageSize: number): Observable<RailwayDto[]> {
     return this.http.get<RailwayDto[]>(API_BASE_URL + "/railways/view?filter=" + filter
       + "&sortDirection=" + sortDirection + "&page=" + pageNumber + "&size=" + pageSize);
+  }
+
+  getAvailableSeats(railwayId: number): Observable<SeatDto[]> {
+    return this.http.get<SeatDto[]>(API_BASE_URL + '/railways/' + railwayId + '/seats');
   }
 
   getCount(): Observable<number> {

@@ -22,7 +22,8 @@ export class HomeComponent implements AfterViewInit, OnInit {
   lenght!: number;
   roles!: Role[];
   pageSize!: number;
-  displayedColumns: string[] = ['railwayNumber', 'departureStation', 'arrivalStation', 'departureDatetime', 'arrivalDatetime', 'action'];
+  displayedColumns: string[] = ['railwayNumber', 'departureStation', 'arrivalStation', 
+  'departureDatetime', 'arrivalDatetime', 'availableSeats', 'action'];
   dataSource!: RailwayDataSource;
   orders!: OrderDto[];
   currentUserId!: number;
@@ -44,6 +45,10 @@ export class HomeComponent implements AfterViewInit, OnInit {
     });
     this.dataSource = new RailwayDataSource(this.railwayService);
     this.dataSource.loadRailways('', 'asc', 0, 5);
+  }
+
+  isNotBooked(availableSeats: number) {
+    return availableSeats >= 16;
   }
 
   shouldShowBookLink(railwayId: number): boolean {

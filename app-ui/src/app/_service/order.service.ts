@@ -24,10 +24,6 @@ export class OrderService {
     return this.http.get<OrderDto[]>(API_BASE_URL + '/orders');
   }
 
-  getAvailableTickets(): Observable<SeatDto[]> {
-    return this.http.get<SeatDto[]>(API_BASE_URL + '/tickets/seats');
-  }
-
   getOrdersWithTickets(): Observable<OrderWithTicketDto[]> {
     return this.http.get<OrderWithTicketDto[]>(API_BASE_URL + '/orders/tickets');
   }

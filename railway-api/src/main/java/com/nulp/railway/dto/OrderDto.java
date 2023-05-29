@@ -18,7 +18,6 @@ public class OrderDto {
     private Long railwayId;
     private Long userId;
     private LocalDateTime orderDatetime;
-
     public String getOrderDatetime() {
         return orderDatetime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }

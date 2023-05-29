@@ -27,20 +27,12 @@ public class TicketController {
     private static final String LOG_MESSAGE_WITH_TICKET_ID = "Endpoint - {}({}) call";
     private final TicketService ticketService;
     private final TicketMapper ticketMapper;
-    private final SeatMapper seatMapper;
 
     @GetMapping
     public ResponseEntity<List<TicketDto>> getAll() {
         log.debug(LOG_MESSAGE, "getAllTickets");
         var tickets = ticketMapper.toDtoList(ticketService.getAll());
         return new ResponseEntity<>(tickets, HttpStatus.OK);
-    }
-
-    @GetMapping("/seats")
-    public ResponseEntity<List<SeatDto>> getAvailableSeats() {
-        log.debug(LOG_MESSAGE, "getAvailableSeats");
-        var seats = seatMapper.toDtoList(ticketService.getAvailableSeats());
-        return new ResponseEntity<>(seats, HttpStatus.OK);
     }
 
     @GetMapping("/{ticketId}")

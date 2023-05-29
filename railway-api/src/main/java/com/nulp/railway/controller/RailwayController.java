@@ -1,7 +1,9 @@
 package com.nulp.railway.controller;
 
 import com.nulp.railway.dto.RailwayDto;
+import com.nulp.railway.dto.SeatDto;
 import com.nulp.railway.mapper.RailwayMapper;
+import com.nulp.railway.mapper.SeatMapper;
 import com.nulp.railway.service.RailwayService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,7 @@ public class RailwayController {
     private static final String LOG_MESSAGE_WITH_RAILWAY_ID = "Endpoint - {}({}) call";
     private final RailwayService railwayService;
     private final RailwayMapper railwayMapper;
+    private final SeatMapper seatMapper;
 
     @GetMapping("/view")
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -47,6 +50,13 @@ public class RailwayController {
         log.debug(LOG_MESSAGE, "getAllRailwaysCount");
         Long count = railwayService.getAllRailwaysCount();
         return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/{railwayId}/seats")
+    public ResponseEntity<List<SeatDto>> getAvailableSeats(@PathVariable Long railwayId) {
+        log.debug(LOG_MESSAGE, "getAvailableSeats");
+        var seats = seatMapper.toDtoList(railwayService.getAvailableSeats(railwayId));
+        return new ResponseEntity<>(seats, HttpStatus.OK);
     }
 
     @GetMapping

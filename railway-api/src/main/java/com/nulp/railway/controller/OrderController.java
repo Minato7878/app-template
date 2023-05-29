@@ -4,6 +4,7 @@ import com.nulp.railway.dto.OrderDto;
 import com.nulp.railway.dto.OrderWithTicketDto;
 import com.nulp.railway.dto.TicketDto;
 import com.nulp.railway.entity.Order;
+import com.nulp.railway.exception.BadRequestException;
 import com.nulp.railway.exception.EntityNotFoundException;
 import com.nulp.railway.mapper.OrderMapper;
 import com.nulp.railway.mapper.TicketMapper;
@@ -11,6 +12,7 @@ import com.nulp.railway.service.OrderService;
 import com.nulp.railway.service.TicketService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -87,9 +90,22 @@ public class OrderController {
     @PostMapping("/ticket")
     public ResponseEntity<OrderDto> createWithTicket(@RequestBody @Valid OrderWithTicketDto orderWithTicketDto) {
         log.debug(LOG_MESSAGE, "createOrderWithTicket");
-        var order = orderService.saveWithTicket(orderMapper.toEntity(orderWithTicketDto.getOrder()),
-                ticketMapper.toEntity(orderWithTicketDto.getTicket()));
-        return new ResponseEntity<>(orderMapper.toDto(order), HttpStatus.CREATED);
+        var order = orderWithTicketDto.getOrder();
+        if (Objects.isNull(order) || Objects.isNull(order.getRailwayId()))
+            throw new BadRequestException("Cannot create OrderWithTicket because order is empty or corrupted!");
+
+        var ticket = orderWithTicketDto.getTicket();
+
+        if (Objects.isNull(ticket) || Strings.isBlank(ticket.getPassengerFirstName())
+                || Strings.isBlank(ticket.getPassengerLastName()))
+            throw new BadRequestException("Cannot create OrderWithTicket because ticket is empty or corrupted!");
+
+        if (Objects.isNull(ticket.getSeatDto()) || Objects.isNull(ticket.getSeatDto().getSeatNumber())
+                || Objects.isNull(ticket.getSeatDto().getCarriage()))
+            throw new BadRequestException("Cannot create OrderWithTicket because seat in ticket is empty or corrupted!");
+
+        var resultOrder = orderService.saveWithTicket(orderMapper.toEntity(order), ticketMapper.toEntity(ticket));
+        return new ResponseEntity<>(orderMapper.toDto(resultOrder), HttpStatus.CREATED);
     }
 
     @PutMapping("/{orderId}")

@@ -2,9 +2,9 @@ package com.nulp.railway.service;
 
 import com.nulp.railway.entity.Order;
 import com.nulp.railway.entity.Ticket;
-import com.nulp.railway.exception.CustomAuthException;
 import com.nulp.railway.exception.EntityNotFoundException;
 import com.nulp.railway.repository.OrderRepository;
+import com.nulp.railway.repository.RailwayRepository;
 import com.nulp.railway.repository.SeatRepository;
 import com.nulp.railway.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +19,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final TicketRepository ticketRepository;
     private final SeatRepository seatRepository;
+    private final RailwayRepository railwayRepository;
     private final UserService userService;
 
     public List<Order> getAll() {
@@ -36,14 +37,15 @@ public class OrderService {
     }
 
     public List<Order> unbookOrder(Long railwayId) {
+        var railway = railwayRepository.findById(railwayId)
+                .orElseThrow(() -> new EntityNotFoundException("Railway with id " + railwayId + " not found"));
         var user = userService.getCurrentUser();
-        var order = orderRepository.findByRailwayId(railwayId);
-        if (!order.getUser().getId().equals(user.getId())) {
-            throw new CustomAuthException("User don't have permissions for this operation");
-        }
+        var order = orderRepository.findByRailwayIdAndUserId(railwayId, user.getId())
+                .orElseThrow(() -> new EntityNotFoundException("This user doesn't have order for railway " + railwayId));
         var ticket = ticketRepository.findByOrderId(order.getId());
         var seat = ticket.getSeat();
         seat.setAvailable(true);
+        seat.setRailway(railway);
         seatRepository.save(seat);
         ticketRepository.delete(ticket);
         orderRepository.delete(order);
@@ -55,9 +57,12 @@ public class OrderService {
     }
 
     public Order saveWithTicket(Order order, Ticket ticket) {
+        var railway = railwayRepository.findById(order.getRailway().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Railway with id " + order.getRailway().getId() + " not found"));
+        order.setRailway(railway);
         var savedOrder = orderRepository.save(order);
-        var seat = seatRepository.findByCarriageAndSeatNumber(ticket.getSeat().getCarriage(),
-                ticket.getSeat().getSeatNumber());
+        var seat = seatRepository.findByCarriageAndSeatNumberAndRailwayId(ticket.getSeat().getCarriage(),
+                ticket.getSeat().getSeatNumber(), railway.getId());
         seat.setAvailable(false);
         seatRepository.save(seat);
         ticket.setOrder(savedOrder);

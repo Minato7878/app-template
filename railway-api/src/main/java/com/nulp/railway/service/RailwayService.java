@@ -1,7 +1,9 @@
 package com.nulp.railway.service;
 
 import com.nulp.railway.entity.Railway;
+import com.nulp.railway.entity.Seat;
 import com.nulp.railway.exception.EntityNotFoundException;
+import com.nulp.railway.repository.OrderRepository;
 import com.nulp.railway.repository.RailwayRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +25,14 @@ public class RailwayService {
         Sort sort = Sort.by(sortDirection.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, "id");
         pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
         return railwayRepository.findAllByRailwayNumberStartingWith(filter, pageable).getContent();
+    }
+
+    public List<Seat> getAvailableSeats(Long railwayId) {
+        var railway = railwayRepository.findById(railwayId)
+                .orElseThrow(() -> new EntityNotFoundException("Railway with id " + railwayId + " not found"));
+        return railway.getSeats().stream()
+                .filter(Seat::isAvailable)
+                .collect(Collectors.toList());
     }
 
     public Long getAllRailwaysCount() {
@@ -51,5 +61,4 @@ public class RailwayService {
     public void deleteById(Long railwayId) {
         railwayRepository.deleteById(railwayId);
     }
-
 }

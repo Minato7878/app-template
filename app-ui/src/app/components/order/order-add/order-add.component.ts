@@ -8,6 +8,7 @@ import { SeatDto } from '../../../model/seat.model';
 import { OrderService } from '../../../_service/order.service';
 import { TicketDto } from 'src/app/model/ticket.model';
 import { OrderWithTicketDto } from 'src/app/model/order-ticket.model';
+import { RailwayService } from 'src/app/_service/railway.service';
 
 @Component({
   selector: 'app-order-add',
@@ -29,6 +30,7 @@ export class OrderAddComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private orderService: OrderService,
+    private railwayService: RailwayService
   ) { }
 
   ngOnInit() {
@@ -38,7 +40,7 @@ export class OrderAddComponent implements OnInit {
       // Use the railwayId as needed
     });
 
-    this.orderService.getAvailableTickets().subscribe(data => this.seats = data);
+    this.railwayService.getAvailableSeats(this.railwayId).subscribe(data => this.seats = data);
 
     this.addForm = this.formBuilder.group({
       id: [],

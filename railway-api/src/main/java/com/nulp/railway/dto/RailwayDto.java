@@ -18,4 +18,5 @@ public class RailwayDto {
     private String arrivalStation;
     private LocalDateTime departureDatetime;
     private LocalDateTime arrivalDatetime;
+    private Long availableSeats;
 }

@@ -20,7 +20,7 @@ public class Ticket {
     @Column(name = "passenger_last_name", nullable = false)
     private String passengerLastName;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seat_id", referencedColumnName = "id", nullable = false)
     private Seat seat;
 

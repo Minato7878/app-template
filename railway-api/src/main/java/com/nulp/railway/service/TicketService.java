@@ -23,10 +23,6 @@ public class TicketService {
         return ticketRepository.findAll();
     }
 
-    public List<Seat> getAvailableSeats() {
-        return seatRepository.findAllByIsAvailableIsTrue();
-    }
-
     public List<Ticket> getByOrderIds(List<Long> orderIds) {
         return ticketRepository.findAllByOrderIds(orderIds);
     }

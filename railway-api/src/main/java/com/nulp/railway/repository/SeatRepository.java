@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface SeatRepository extends JpaRepository<Seat, Long> {
     List<Seat> findAllByIsAvailableIsTrue();
 
-    Seat findByCarriageAndSeatNumber(String carriage, String seatNumber);
+    Seat findByCarriageAndSeatNumberAndRailwayId(String carriage, String seatNumber, Long railwayId);
 }
